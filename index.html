@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HP TechPulse — Enterprise IT Asset Lifecycle & Gadget Health Intelligence</title>
+<meta name="description" content="HP TechPulse: Enterprise IT Asset Management — track devices, manage warranties, resolve tickets, and monitor device health intelligence online.">
+<meta name="theme-color" content="#e8132a">
+<link rel="icon" type="image/png" href="./uploads/HP TechPulse logo.png">
+<link rel="stylesheet" href="./style.css">
+<script>
+(function(){
+  var t = localStorage.getItem('tp_theme');
+  if(t === 'light') document.documentElement.classList.add('light-mode');
+})();
+</script>
+<style>
+/* Additional responsive & interactive styles for live static hosting */
+.site-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.site-logo-mark { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+.site-logo-mark img { width: 100%; height: 100%; object-fit: contain; }
+.badge-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.badge-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+  animation: pulse 1.8s infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+.type-cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--red); vertical-align: middle; margin-left: 2px; animation: blink 0.8s infinite; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.nav-pill-active { background: var(--grad); color: #fff !important; font-weight: 700 !important; border-radius: 8px; padding: 6px 14px; }
+</style>
+</head>
+<body id="body-root">
+
+<header class="site-header">
+  <div class="container">
+    <a href="./index.html" class="site-logo">
+      <div class="site-logo-mark">
+        <img src="./uploads/HP TechPulse logo.png" alt="HP TechPulse Logo">
+      </div>
+      <span style="font-size:1.15rem;"><span style="color:var(--red);font-weight:900;">HP</span> <span style="font-weight:900;color:var(--text);">TechPulse</span></span>
+      <span class="badge-live"><span class="badge-live-dot"></span> Live Demo</span>
+    </a>
+
+    <nav class="site-nav">
+      <a href="./index.html" class="active">Home</a>
+      <a href="./dashboard.html">Live Dashboard</a>
+      <a href="./passport.html">Gadget Passport™</a>
+      <a href="./about.html">Architecture</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button id="themeToggleBtn" class="theme-toggle-btn btn btn-ghost btn-icon" title="Toggle Light/Dark Theme" aria-label="Toggle Theme">
+        <svg class="ti-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg class="ti-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </button>
+
+      <a href="./dashboard.html" class="btn btn-outline" style="font-size:0.85rem;padding:8px 16px;">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right:4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+        Open Console
+      </a>
+      <a href="./passport.html" class="btn btn-primary" style="font-size:0.85rem;padding:8px 18px;">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right:4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        Inspect Passport™
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="public-body">
+
+<section class="hero" style="position:relative;overflow:hidden;padding:100px 0 80px;">
+  <!-- FLOATING HARDWARE DEVICES -->
+  <div class="hero-devices" aria-hidden="true">
+    <div class="hdev hdev-laptop" style="--hdev-delay:0s;left:2.5%;top:12%;">
+      <div class="hdev-icon">
+        <svg viewBox="0 0 64 50" fill="none"><rect x="6" y="4" width="52" height="34" rx="4" stroke="currentColor" stroke-width="2.5"/><path d="M0 40h64l-4 6H4L0 40z" fill="currentColor" opacity=".15"/><path d="M0 40h64" stroke="currentColor" stroke-width="2.5"/></svg>
+      </div>
+      <div class="hdev-label">MacBook M4</div>
+    </div>
+
+    <div class="hdev hdev-monitor" style="--hdev-delay:0.6s;left:3.5%;top:54%;">
+      <div class="hdev-icon">
+        <svg viewBox="0 0 64 52" fill="none"><rect x="4" y="4" width="56" height="36" rx="4" stroke="currentColor" stroke-width="2.5"/><circle cx="32" cy="44" r="4" fill="currentColor"/><rect x="20" y="48" width="24" height="3" rx="1.5" fill="currentColor"/></svg>
+      </div>
+      <div class="hdev-label">Dell 4K Display</div>
+    </div>
+
+    <div class="hdev hdev-printer" style="--hdev-delay:1.2s;left:1.5%;top:78%;">
+      <div class="hdev-icon">
+        <svg viewBox="0 0 64 52" fill="none"><rect x="8" y="16" width="48" height="26" rx="4" stroke="currentColor" stroke-width="2.5"/><rect x="14" y="4" width="36" height="16" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="48" cy="26" r="3" fill="currentColor"/></svg>
+      </div>
+      <div class="hdev-label">LaserJet Pro</div>
+    </div>
+
+    <div class="hdev hdev-mobile" style="--hdev-delay:0.3s;right:2.5%;top:10%;">
+      <div class="hdev-icon">
+        <svg viewBox="0 0 36 60" fill="none"><rect x="3" y="3" width="30" height="54" rx="6" stroke="currentColor" stroke-width="2.5"/><circle cx="18" cy="52" r="3" fill="currentColor"/></svg>
+      </div>
+      <div class="hdev-label">Galaxy S23</div>
+    </div>
+
+    <div class="hdev hdev-tablet" style="--hdev-delay:0.9s;right:3%;top:48%;">
+      <div class="hdev-icon">
+        <svg viewBox="0 0 46 62" fill="none"><rect x="3" y="3" width="40" height="56" rx="5" stroke="currentColor" stroke-width="2.5"/><circle cx="23" cy="56" r="2.5" fill="currentColor"/></svg>
+      </div>
+      <div class="hdev-label">iPad 10th</div>
+    </div>
+
+    <div class="hdev hdev-desktop" style="--hdev-delay:1.5s;right:1.8%;top:78%;">
+      <div class="hdev-icon">
+        <svg viewBox="0 0 60 56" fill="none"><rect x="4" y="4" width="36" height="28" rx="3" stroke="currentColor" stroke-width="2.5"/><rect x="44" y="8" width="12" height="36" rx="3" stroke="currentColor" stroke-width="2"/></svg>
+      </div>
+      <div class="hdev-label">OptiPlex 3080</div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <svg fill="currentColor" viewBox="0 0 24 24" width="15" height="15"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Enterprise ITAM &amp; Device Health Intelligence Platform
+    </div>
+
+    <h1 class="hero-title">
+      The smarter way to manage<br>
+      your <span class="type-wrap"><span id="type-text" class="type-text">laptops</span><span class="type-cursor" id="type-cursor"></span></span>
+    </h1>
+
+    <p class="hero-sub">
+      HP TechPulse brings enterprise hardware tracking, algorithmic health scoring (0–100), cryptographic QR Gadget Passports, WDV depreciation, and Green Pulse sustainability into a unified cloud platform.
+    </p>
+
+    <div class="hero-actions">
+      <a href="./dashboard.html" class="btn btn-primary" style="padding:14px 32px;font-size:1rem;font-weight:700;">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        Launch Interactive Dashboard
+      </a>
+      <a href="./passport.html" class="btn btn-outline" style="padding:14px 28px;font-size:1rem;font-weight:600;">
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        View Gadget Passport™
+      </a>
+      <a href="https://github.com/MeetAj369/HP-TechPulse" target="_blank" rel="noopener noreferrer" class="btn btn-ghost" style="padding:14px 24px;font-size:0.95rem;">
+        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub Source
+      </a>
+    </div>
+
+    <!-- METRICS STRIP -->
+    <div class="metrics-strip">
+      <div class="metric-item">
+        <div class="metric-val"><span class="grad-text">18</span></div>
+        <div class="metric-lbl">Devices Tracked</div>
+      </div>
+      <div class="metric-item" style="border-left:1px solid var(--border);padding-left:44px;">
+        <div class="metric-val"><span class="grad-text">94/100</span></div>
+        <div class="metric-lbl">Avg Health Score</div>
+      </div>
+      <div class="metric-item" style="border-left:1px solid var(--border);padding-left:44px;">
+        <div class="metric-val"><span class="grad-text">14</span></div>
+        <div class="metric-lbl">Tickets Resolved</div>
+      </div>
+      <div class="metric-item" style="border-left:1px solid var(--border);padding-left:44px;">
+        <div class="metric-val"><span style="background:var(--grad-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">99.8%</span></div>
+        <div class="metric-lbl">Uptime SLA</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE ASSET VIEW & INTERACTIVE SLIDER -->
+<section class="phone-section" style="padding:80px 0;">
+  <div class="container">
+    <div class="phone-section-inner">
+      <div class="phone-section-text">
+        <div class="section-eyebrow">Enterprise Telemetry</div>
+        <h2>Your IT Assets.<br><span class="g-text">Always in your pocket.</span></h2>
+        <p>Every device assigned to employees or IT teams is accessible instantly with live condition metrics, financial valuations, and service history.</p>
+
+        <div class="feat-chips">
+          <div class="feat-chip">
+            <div class="feat-chip-icon" style="background:var(--red-dim);">
+              <svg fill="none" stroke="var(--red)" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div>
+              <div class="feat-chip-text">Algorithmic Health Scoring</div>
+              <div class="feat-chip-sub">Multi-variable penalty deductions (age, repairs, critical alerts)</div>
+            </div>
+          </div>
+          <div class="feat-chip">
+            <div class="feat-chip-icon" style="background:var(--blue-dim);">
+              <svg fill="none" stroke="var(--blue)" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div>
+              <div class="feat-chip-text">Warranty &amp; AMC Radar</div>
+              <div class="feat-chip-sub">Live countdown timers and authorized vendor contract tracking</div>
+            </div>
+          </div>
+          <div class="feat-chip">
+            <div class="feat-chip-icon" style="background:var(--success-dim);">
+              <svg fill="none" stroke="var(--success)" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+            </div>
+            <div>
+              <div class="feat-chip-text">Green Pulse Eco Sustainability</div>
+              <div class="feat-chip-sub">Carbon footprint audit and e-waste prevention calculations</div>
+            </div>
+          </div>
+          <div class="feat-chip">
+            <div class="feat-chip-icon" style="background:var(--warning-dim);">
+              <svg fill="none" stroke="var(--warning)" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <div>
+              <div class="feat-chip-text">Verifiable Digital Passports with QR</div>
+              <div class="feat-chip-sub">Instant printable audit certificates with cryptographic verification</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE DEVICE PREVIEW CAROUSEL -->
+      <div class="phone-mockup-wrap" style="perspective:900px;display:flex;flex-direction:column;align-items:center;">
+        <div id="devicePreviewCard" style="background:var(--bg-card);border:1.5px solid var(--border);border-radius:24px;padding:24px;width:320px;box-shadow:var(--shadow);text-align:center;">
+          <div style="position:relative;height:160px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;">
+            <img id="cardImg" src="./uploads/Apple MacBook Air M4.jpg" alt="Apple MacBook Air M4" style="max-height:150px;max-width:100%;object-fit:contain;border-radius:12px;filter:drop-shadow(0 12px 24px rgba(0,0,0,0.4));">
+          </div>
+          <h3 id="cardTitle" style="font-size:1.15rem;font-weight:800;color:var(--text);margin-bottom:4px;">Apple MacBook Air M4</h3>
+          <p id="cardTag" style="font-size:0.75rem;font-family:monospace;color:var(--blue);margin-bottom:12px;">ASSET: TP-2026-0001</p>
+          <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;">
+            <span id="cardStatus" class="badge badge-green">Active</span>
+            <span id="cardScore" class="badge badge-purple" style="font-weight:700;">Health 98%</span>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <a id="cardPassportBtn" href="./passport.html?device=macbook" class="btn btn-primary" style="flex:1;font-size:0.8rem;padding:9px;">Inspect Passport</a>
+            <a href="./dashboard.html" class="btn btn-outline" style="font-size:0.8rem;padding:9px;">Console</a>
+          </div>
+        </div>
+
+        <!-- SWITCHER DOTS -->
+        <div style="display:flex;gap:8px;margin-top:18px;">
+          <button class="dev-switch-btn active" data-index="0" style="padding:6px 14px;border-radius:99px;font-size:0.75rem;cursor:pointer;background:var(--red);color:#fff;border:none;font-weight:700;">MacBook M4</button>
+          <button class="dev-switch-btn" data-index="1" style="padding:6px 14px;border-radius:99px;font-size:0.75rem;cursor:pointer;background:var(--bg-card);color:var(--text-sub);border:1px solid var(--border);font-weight:600;">HP EliteBook</button>
+          <button class="dev-switch-btn" data-index="2" style="padding:6px 14px;border-radius:99px;font-size:0.75rem;cursor:pointer;background:var(--bg-card);color:var(--text-sub);border:1px solid var(--border);font-weight:600;">Dell Latitude</button>
+          <button class="dev-switch-btn" data-index="3" style="padding:6px 14px;border-radius:99px;font-size:0.75rem;cursor:pointer;background:var(--bg-card);color:var(--text-sub);border:1px solid var(--border);font-weight:600;">iPad 10th</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM MODULES GRID -->
+<section style="padding:70px 0;background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div style="text-align:center;max-width:680px;margin:0 auto 48px;">
+      <div class="section-eyebrow">Enterprise Architecture</div>
+      <h2 style="font-size:2rem;font-weight:800;letter-spacing:-0.03em;">Engineered for High-Scale Asset Intelligence</h2>
+      <p style="color:var(--text-sub);font-size:0.95rem;margin-top:8px;">Replacing spreadsheets with verifiable cryptographic digital passports, lifecycle tracking, and financial analytics.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(232,19,42,0.15);display:flex;align-items:center;justify-content:center;color:var(--red);margin-bottom:16px;">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;">Device Health Scoring</h3>
+        <p style="color:var(--text-sub);font-size:0.88rem;line-height:1.6;">Dynamic 0–100 score calculating age penalties, repair frequencies, active fault severity, and warranty bonuses in real time.</p>
+      </div>
+
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(26,107,255,0.15);display:flex;align-items:center;justify-content:center;color:var(--blue);margin-bottom:16px;">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;">WDV Financial Depreciation</h3>
+        <p style="color:var(--text-sub);font-size:0.88rem;line-height:1.6;">Automated Written Down Value (WDV) accounting schedules and Total Cost of Ownership (CapEx + OpEx maintenance) modeling.</p>
+      </div>
+
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;">
+        <div style="width:44px;height:44px;border-radius:12px;background:rgba(34,197,94,0.15);display:flex;align-items:center;justify-content:center;color:var(--success);margin-bottom:16px;">
+          <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/></svg>
+        </div>
+        <h3 style="font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:8px;">5-Stage Support Tickets</h3>
+        <p style="color:var(--text-sub);font-size:0.88rem;line-height:1.6;">End-to-end IT resolution pipeline: Open &rarr; Assigned &rarr; In-Progress &rarr; Testing &rarr; Resolved with technician audit trails.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="site-logo" style="margin-bottom:12px;">
+          <div class="site-logo-mark">
+            <img src="./uploads/HP TechPulse logo.png" alt="Logo">
+          </div>
+          <span style="font-weight:900;font-size:1rem;"><span style="color:var(--red);">HP</span> <span style="color:var(--text);">TechPulse</span></span>
+        </div>
+        <p>Enterprise IT Asset Lifecycle Management and Hardware Telemetry Platform. Architected and developed by Meet Chauhan.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <a href="./index.html">Home</a>
+        <a href="./dashboard.html">Live Dashboard</a>
+        <a href="./passport.html">Gadget Passport™</a>
+        <a href="./about.html">Architecture &amp; Docs</a>
+        <a href="./contact.html">Contact</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Live Portals</h4>
+        <a href="./dashboard.html?tab=admin">Admin Console</a>
+        <a href="./dashboard.html?tab=employee">Employee Portal</a>
+        <a href="./passport.html?device=macbook">MacBook M4 Passport</a>
+        <a href="./passport.html?device=elitebook">HP EliteBook Passport</a>
+        <a href="https://github.com/MeetAj369/HP-TechPulse" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Engineer</h4>
+        <div class="footer-contact-item">
+          <span><strong>Meet Chauhan</strong></span>
+        </div>
+        <div class="footer-contact-item">
+          <span>BCA, Charutar Vidya Mandal University</span>
+        </div>
+        <div class="footer-contact-item">
+          <span>Anand, Gujarat, India</span>
+        </div>
+        <div style="margin-top:16px;">
+          <a href="https://meetaj369.github.io/Meet-Portfolio/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="font-size:0.8rem;padding:7px 14px;">
+            Visit Meet's Portfolio &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; 2026 HP TechPulse. Built with pride by Meet Chauhan.</p>
+      <div class="footer-bottom-links">
+        <a href="./dashboard.html">Console</a>
+        <a href="./passport.html">Passport</a>
+        <a href="https://github.com/MeetAj369/HP-TechPulse">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+// Typing Animation Effect
+const words = ['laptops', 'smartphones', 'displays & monitors', 'network hardware', 'IT enterprise assets'];
+let wordIdx = 0, charIdx = 0, isDeleting = false;
+const typeEl = document.getElementById('type-text');
+
+function type() {
+  const current = words[wordIdx];
+  if (isDeleting) {
+    typeEl.textContent = current.substring(0, charIdx - 1);
+    charIdx--;
+  } else {
+    typeEl.textContent = current.substring(0, charIdx + 1);
+    charIdx++;
+  }
+
+  let delay = isDeleting ? 45 : 90;
+  if (!isDeleting && charIdx === current.length) {
+    delay = 1800;
+    isDeleting = true;
+  } else if (isDeleting && charIdx === 0) {
+    isDeleting = false;
+    wordIdx = (wordIdx + 1) % words.length;
+    delay = 350;
+  }
+  setTimeout(type, delay);
+}
+type();
+
+// Device Switcher Data
+const devices = [
+  {
+    title: 'Apple MacBook Air M4',
+    tag: 'ASSET: TP-2026-0001',
+    img: './uploads/Apple MacBook Air M4.jpg',
+    status: 'Active',
+    score: 'Health 98%',
+    passport: './passport.html?device=macbook'
+  },
+  {
+    title: 'HP EliteBook 840 G9',
+    tag: 'ASSET: TP-2024-0001',
+    img: './uploads/HP EliteBook 840.jpg',
+    status: 'Active',
+    score: 'Health 87%',
+    passport: './passport.html?device=elitebook'
+  },
+  {
+    title: 'Dell Latitude 7420',
+    tag: 'ASSET: TP-2024-0002',
+    img: './uploads/Dell Latitude 7420.jpg',
+    status: 'Active',
+    score: 'Health 92%',
+    passport: './passport.html?device=dell'
+  },
+  {
+    title: 'Apple iPad 10th Gen',
+    tag: 'ASSET: TP-2024-0010',
+    img: './uploads/Apple iPad 10th.jpg',
+    status: 'Active',
+    score: 'Health 94%',
+    passport: './passport.html?device=ipad'
+  }
+];
+
+const switchBtns = document.querySelectorAll('.dev-switch-btn');
+switchBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchBtns.forEach(b => {
+      b.style.background = 'var(--bg-card)';
+      b.style.color = 'var(--text-sub)';
+      b.style.border = '1px solid var(--border)';
+    });
+    btn.style.background = 'var(--red)';
+    btn.style.color = '#fff';
+    btn.style.border = 'none';
+
+    const d = devices[btn.dataset.index];
+    document.getElementById('cardImg').src = d.img;
+    document.getElementById('cardImg').alt = d.title;
+    document.getElementById('cardTitle').textContent = d.title;
+    document.getElementById('cardTag').textContent = d.tag;
+    document.getElementById('cardStatus').textContent = d.status;
+    document.getElementById('cardScore').textContent = d.score;
+    document.getElementById('cardPassportBtn').href = d.passport;
+  });
+});
+
+// Theme Toggle
+document.getElementById('themeToggleBtn').addEventListener('click', () => {
+  const isLight = document.documentElement.classList.toggle('light-mode');
+  localStorage.setItem('tp_theme', isLight ? 'light' : 'dark');
+});
+</script>
+
+</body>
+</html>

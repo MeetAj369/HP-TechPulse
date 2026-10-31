@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact &amp; Support — HP TechPulse</title>
+<meta name="description" content="Get in touch with Meet Chauhan regarding the HP TechPulse platform.">
+<link rel="icon" type="image/png" href="./uploads/HP TechPulse logo.png">
+<link rel="stylesheet" href="./style.css">
+<script>
+(function(){
+  var t = localStorage.getItem('tp_theme');
+  if(t === 'light') document.documentElement.classList.add('light-mode');
+})();
+</script>
+<style>
+.form-input, .form-textarea {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+.form-input:focus, .form-textarea:focus { border-color: var(--red); }
+.form-label { display: block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; letter-spacing: 0.05em; }
+.form-group { margin-bottom: 20px; text-align: left; }
+</style>
+</head>
+<body id="body-root">
+
+<header class="site-header">
+  <div class="container">
+    <a href="./index.html" class="site-logo">
+      <div class="site-logo-mark">
+        <img src="./uploads/HP TechPulse logo.png" alt="HP TechPulse Logo">
+      </div>
+      <span style="font-size:1.15rem;"><span style="color:var(--red);font-weight:900;">HP</span> <span style="font-weight:900;color:var(--text);">TechPulse</span></span>
+    </a>
+
+    <nav class="site-nav">
+      <a href="./index.html">Home</a>
+      <a href="./dashboard.html">Live Dashboard</a>
+      <a href="./passport.html">Gadget Passport™</a>
+      <a href="./about.html">Architecture</a>
+      <a href="./contact.html" class="active">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button id="themeToggleBtn" class="theme-toggle-btn btn btn-ghost btn-icon" title="Toggle Light/Dark Theme">
+        <svg class="ti-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg class="ti-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </button>
+
+      <a href="./dashboard.html" class="btn btn-primary" style="font-size:0.85rem;padding:8px 18px;">
+        Open Console
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="public-body" style="padding:60px 0;">
+  <div class="container" style="max-width:840px;">
+    <div style="text-align:center;margin-bottom:40px;">
+      <div class="section-eyebrow">Direct Contact</div>
+      <h1 style="font-size:2.2rem;font-weight:900;letter-spacing:-0.03em;color:var(--text);">Get in Touch with the Developer</h1>
+      <p style="font-size:1rem;color:var(--text-sub);margin-top:8px;">Have questions about HP TechPulse architecture, deployment, or full-stack software roles?</p>
+    </div>
+
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:24px;padding:36px;box-shadow:var(--shadow);">
+      <form id="contactForm">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div class="form-group">
+            <label class="form-label" for="senderName">Your Name</label>
+            <input type="text" id="senderName" class="form-input" placeholder="e.g. Alex Morgan" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="senderEmail">Your Email</label>
+            <input type="email" id="senderEmail" class="form-input" placeholder="alex@company.com" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="senderSubject">Subject</label>
+          <input type="text" id="senderSubject" class="form-input" placeholder="HP TechPulse Inquiry / Hiring" value="HP TechPulse Platform Inquiry" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="senderMessage">Message</label>
+          <textarea id="senderMessage" class="form-textarea" rows="5" placeholder="Hi Meet, I explored the HP TechPulse platform and would love to discuss..." required></textarea>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button type="button" id="sendGmailBtn" class="btn btn-primary" style="padding:12px 24px;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+            Send via Gmail Web
+          </button>
+          <button type="button" id="sendMailtoBtn" class="btn btn-outline" style="padding:12px 24px;">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            Send via Mail App
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container" style="text-align:center;padding:24px 0;">
+    <p style="font-size:0.85rem;color:var(--text-muted);">&copy; 2026 HP TechPulse. Developed by Meet Chauhan.</p>
+  </div>
+</footer>
+
+<script>
+function sendEmail(mode) {
+  const name = document.getElementById('senderName').value.trim();
+  const email = document.getElementById('senderEmail').value.trim();
+  const subject = document.getElementById('senderSubject').value.trim() || 'HP TechPulse Inquiry';
+  const message = document.getElementById('senderMessage').value.trim();
+
+  if (!name || !email || !message) {
+    alert('Please fill out your name, email, and message.');
+    return;
+  }
+
+  const body = `Hi Meet,\n\n${message}\n\n---\nSent by: ${name} (${email})`;
+  const encSub = encodeURIComponent(subject);
+  const encBody = encodeURIComponent(body);
+
+  if (mode === 'gmail') {
+    window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=meetaj369@gmail.com&su=${encSub}&body=${encBody}`, '_blank');
+  } else {
+    window.location.href = `mailto:meetaj369@gmail.com?subject=${encSub}&body=${encBody}`;
+  }
+}
+
+document.getElementById('sendGmailBtn').addEventListener('click', () => sendEmail('gmail'));
+document.getElementById('sendMailtoBtn').addEventListener('click', () => sendEmail('mailto'));
+
+document.getElementById('themeToggleBtn').addEventListener('click', () => {
+  const isLight = document.documentElement.classList.toggle('light-mode');
+  localStorage.setItem('tp_theme', isLight ? 'light' : 'dark');
+});
+</script>
+
+</body>
+</html>

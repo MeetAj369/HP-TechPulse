@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enterprise Console &amp; Asset Dashboard — HP TechPulse</title>
+<meta name="description" content="Interactive enterprise IT asset management dashboard, device registry, ticket workflow, and Green Pulse sustainability.">
+<link rel="icon" type="image/png" href="./uploads/HP TechPulse logo.png">
+<link rel="stylesheet" href="./style.css">
+<script>
+(function(){
+  var t = localStorage.getItem('tp_theme');
+  if(t === 'light') document.documentElement.classList.add('light-mode');
+})();
+</script>
+<style>
+.dash-container { max-width: 1240px; margin: 32px auto; padding: 0 16px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.kpi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.kpi-title { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); letter-spacing: 0.06em; margin-bottom: 8px; }
+.kpi-val { font-size: 2rem; font-weight: 900; color: var(--text); line-height: 1.1; font-family: monospace; }
+.kpi-sub { font-size: 0.78rem; color: var(--text-sub); margin-top: 6px; }
+
+.tab-pill {
+  padding: 8px 18px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-sub);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.tab-pill.active {
+  background: var(--red);
+  color: #fff;
+  border-color: var(--red);
+  box-shadow: 0 4px 14px rgba(232,19,42,0.3);
+}
+
+.table-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 32px;
+}
+.table-header-bar {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.data-table th, .data-table td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--border); }
+.data-table th { font-size: 0.72rem; text-transform: uppercase; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em; background: rgba(255,255,255,0.02); }
+html.light-mode .data-table th { background: rgba(0,0,0,0.02); }
+.data-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+html.light-mode .data-table tbody tr:hover { background: rgba(0,0,0,0.02); }
+
+.search-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  outline: none;
+  min-width: 240px;
+}
+.cat-btn {
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--bg-input);
+  color: var(--text-sub);
+  cursor: pointer;
+}
+.cat-btn.active {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+}
+</style>
+</head>
+<body id="body-root">
+
+<header class="site-header">
+  <div class="container">
+    <a href="./index.html" class="site-logo">
+      <div class="site-logo-mark">
+        <img src="./uploads/HP TechPulse logo.png" alt="HP TechPulse Logo">
+      </div>
+      <span style="font-size:1.15rem;"><span style="color:var(--red);font-weight:900;">HP</span> <span style="font-weight:900;color:var(--text);">TechPulse</span></span>
+    </a>
+
+    <nav class="site-nav">
+      <a href="./index.html">Home</a>
+      <a href="./dashboard.html" class="active">Live Dashboard</a>
+      <a href="./passport.html">Gadget Passport™</a>
+      <a href="./about.html">Architecture</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button id="themeToggleBtn" class="theme-toggle-btn btn btn-ghost btn-icon" title="Toggle Light/Dark Theme">
+        <svg class="ti-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg class="ti-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </button>
+
+      <a href="./passport.html" class="btn btn-outline" style="font-size:0.85rem;padding:8px 16px;">
+        Open Passport
+      </a>
+      <a href="./index.html" class="btn btn-primary" style="font-size:0.85rem;padding:8px 16px;">
+        Back to Home
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="dash-container">
+  <!-- DASHBOARD TOP HEADER & ROLE SWITCHER -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:16px;">
+    <div>
+      <div style="font-size:0.75rem;font-weight:800;text-transform:uppercase;color:var(--red);letter-spacing:0.08em;">ENTERPRISE CONSOLE</div>
+      <h1 id="dashTitle" style="font-size:1.8rem;font-weight:900;color:var(--text);letter-spacing:-0.03em;">Administrator Fleet Overview</h1>
+    </div>
+
+    <!-- ROLE SWITCHER -->
+    <div style="display:flex;gap:8px;background:var(--bg-card);border:1px solid var(--border);border-radius:99px;padding:4px;">
+      <button id="adminTabBtn" class="tab-pill active">Admin Console</button>
+      <button id="userTabBtn" class="tab-pill">Employee Portal</button>
+    </div>
+  </div>
+
+  <!-- KPI SUMMARY STRIP -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-title">Active Fleet Devices</div>
+      <div class="kpi-val grad-text" id="kpiDevices">18</div>
+      <div class="kpi-sub">Across 5 departments</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Fleet Health Benchmark</div>
+      <div class="kpi-val" style="color:var(--success);" id="kpiHealth">94%</div>
+      <div class="kpi-sub">Target SLA: &ge; 85% (Passing)</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Support Tickets</div>
+      <div class="kpi-val" style="color:var(--warning);" id="kpiTickets">2 Open</div>
+      <div class="kpi-sub">14 resolved this quarter</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-title">Green Pulse Sustainability</div>
+      <div class="kpi-val" style="color:#06b6d4;" id="kpiEco">1,280 kg</div>
+      <div class="kpi-sub">CO₂ e-waste avoided via maintenance</div>
+    </div>
+  </div>
+
+  <!-- ASSET REGISTRY TABLE SECTION -->
+  <div class="table-wrap">
+    <div class="table-header-bar">
+      <div>
+        <h3 style="font-size:1.15rem;font-weight:800;color:var(--text);">Hardware Asset Registry</h3>
+        <p style="font-size:0.78rem;color:var(--text-sub);margin-top:2px;">Showing provisioned corporate machines with real-time health telemetry</p>
+      </div>
+
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <input type="text" id="searchTable" class="search-input" placeholder="Search model, serial or user...">
+        <div style="display:flex;gap:4px;" id="catFilterWrap">
+          <button class="cat-btn active" data-cat="all">All</button>
+          <button class="cat-btn" data-cat="Laptop">Laptops</button>
+          <button class="cat-btn" data-cat="Monitor">Monitors</button>
+          <button class="cat-btn" data-cat="Mobile">Mobiles</button>
+          <button class="cat-btn" data-cat="Printer">Printers</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="overflow-x:auto;">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Device &amp; Asset Tag</th>
+            <th>Category</th>
+            <th>Assigned To</th>
+            <th>Health Score</th>
+            <th>Status</th>
+            <th>Book Value (WDV)</th>
+            <th>Passport Action</th>
+          </tr>
+        </thead>
+        <tbody id="deviceTableBody">
+          <!-- Dynamically populated via JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SUPPORT TICKETS & MAINTENANCE PREVIEW -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;margin-bottom:32px;">
+    <!-- TICKETS 5-STAGE PIPELINE -->
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h3 style="font-size:1.05rem;font-weight:800;color:var(--text);">Support Ticket Lifecycle</h3>
+        <span class="badge badge-blue">5-Stage Workflow</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);">
+          <div>
+            <div style="font-weight:700;font-size:0.88rem;color:var(--text);">#TP-TK-08 &bull; Battery Cycle Degradation</div>
+            <div style="font-size:0.75rem;color:var(--text-sub);margin-top:2px;">HP EliteBook 840 &bull; Raised by Rajesh Patel</div>
+          </div>
+          <span class="badge badge-amber">In-Progress</span>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);">
+          <div>
+            <div style="font-weight:700;font-size:0.88rem;color:var(--text);">#TP-TK-07 &bull; Toner Cartridge Replacement</div>
+            <div style="font-size:0.75rem;color:var(--text-sub);margin-top:2px;">LaserJet Pro M479 &bull; Raised by Floor 2 Hub</div>
+          </div>
+          <span class="badge badge-purple">Testing</span>
+        </div>
+
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.02);border-radius:12px;border:1px solid var(--border);">
+          <div>
+            <div style="font-weight:700;font-size:0.88rem;color:var(--text);">#TP-TK-04 &bull; Display Flickering Diagnostics</div>
+            <div style="font-size:0.75rem;color:var(--text-sub);margin-top:2px;">Dell Latitude 7420 &bull; Raised by Priya Sharma</div>
+          </div>
+          <span class="badge badge-green">Resolved</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SPARES STOCK MONITOR -->
+    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:24px;box-shadow:var(--shadow-sm);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h3 style="font-size:1.05rem;font-weight:800;color:var(--text);">Inventory Spares Monitor</h3>
+        <span class="badge badge-green">12 Items in Stock</span>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:10px;border:1px solid var(--border);">
+          <span style="font-size:0.85rem;color:var(--text);font-weight:600;">16GB DDR5 Laptop SODIMM</span>
+          <span style="font-weight:800;font-family:monospace;color:var(--success);">8 Units (Safe)</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:10px;border:1px solid var(--border);">
+          <span style="font-size:0.85rem;color:var(--text);font-weight:600;">1TB PCIe Gen4 NVMe SSDs</span>
+          <span style="font-weight:800;font-family:monospace;color:var(--success);">5 Units (Safe)</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:10px;border:1px solid rgba(245,158,11,0.3);background:rgba(245,158,11,0.06);">
+          <span style="font-size:0.85rem;color:var(--text);font-weight:600;">HP 65W USB-C Fast Chargers</span>
+          <span style="font-weight:800;font-family:monospace;color:var(--warning);">2 Units (Reorder Soon)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container" style="text-align:center;padding:24px 0;">
+    <p style="font-size:0.85rem;color:var(--text-muted);">&copy; 2026 HP TechPulse Enterprise Platform. Developed by Meet Chauhan.</p>
+  </div>
+</footer>
+
+<script>
+const allDevices = [
+  {
+    name: 'Apple MacBook Air M4',
+    tag: 'TP-2026-0001',
+    category: 'Laptop',
+    user: 'Meet Chauhan (Software Dev)',
+    score: 98,
+    status: 'Active',
+    value: '₹97,665',
+    param: 'macbook',
+    img: './uploads/Apple MacBook Air M4.jpg'
+  },
+  {
+    name: 'Dell Latitude 7420',
+    tag: 'TP-2024-0002',
+    category: 'Laptop',
+    user: 'Priya Sharma (Frontend Dev)',
+    score: 92,
+    status: 'Active',
+    value: '₹67,915',
+    param: 'dell',
+    img: './uploads/Dell Latitude 7420.jpg'
+  },
+  {
+    name: 'HP EliteBook 840 G9',
+    tag: 'TP-2024-0001',
+    category: 'Laptop',
+    user: 'Rajesh Patel (IT Manager)',
+    score: 87,
+    status: 'Active',
+    value: '₹64,664',
+    param: 'elitebook',
+    img: './uploads/HP EliteBook 840.jpg'
+  },
+  {
+    name: 'Samsung Galaxy S23 Ultra',
+    tag: 'TP-2024-0015',
+    category: 'Mobile',
+    user: 'Amit Joshi (Field Director)',
+    score: 96,
+    status: 'Active',
+    value: '₹75,862',
+    param: 'samsung',
+    img: './uploads/Samsung S23 Ultra.jpg'
+  },
+  {
+    name: 'Apple iPad 10th Gen',
+    tag: 'TP-2024-0010',
+    category: 'Tablet',
+    user: 'Design Team Shared',
+    score: 94,
+    status: 'Active',
+    value: '₹28,828',
+    param: 'ipad',
+    img: './uploads/Apple iPad 10th.jpg'
+  },
+  {
+    name: 'HP LaserJet Pro M479fdw',
+    tag: 'TP-2024-0008',
+    category: 'Printer',
+    user: 'Floor 2 IT Central Hub',
+    score: 62,
+    status: 'Needs Service',
+    value: '₹28,560',
+    param: 'printer',
+    img: './uploads/HP LaserJet Pro.jpg'
+  },
+  {
+    name: 'Dell UltraSharp 24 Monitor',
+    tag: 'TP-2024-0005',
+    category: 'Monitor',
+    user: 'Engineering Workstation 1',
+    score: 100,
+    status: 'Active',
+    value: '₹14,200',
+    param: 'macbook',
+    img: './uploads/Dell 24 Monitor.jpg'
+  },
+  {
+    name: 'Dell OptiPlex 3080 Desktop',
+    tag: 'TP-2024-0006',
+    category: 'Desktop',
+    user: 'DevOps Server Station',
+    score: 91,
+    status: 'Active',
+    value: '₹38,200',
+    param: 'dell',
+    img: './uploads/Dell OptiPlex 3080.jpg'
+  }
+];
+
+let currentCat = 'all';
+let currentSearch = '';
+let currentRole = 'admin';
+
+function renderTable() {
+  const tbody = document.getElementById('deviceTableBody');
+  const filtered = allDevices.filter(d => {
+    const matchCat = (currentCat === 'all' || d.category === currentCat);
+    const matchSearch = (
+      d.name.toLowerCase().includes(currentSearch) ||
+      d.tag.toLowerCase().includes(currentSearch) ||
+      d.user.toLowerCase().includes(currentSearch)
+    );
+    const matchRole = currentRole === 'admin' ? true : d.user.includes('Meet Chauhan');
+    return matchCat && matchSearch && matchRole;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--text-muted);">No devices match your search.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(d => {
+    let scoreColor = '#22c55e';
+    if (d.score < 80 && d.score >= 60) scoreColor = '#3b82f6';
+    if (d.score < 60) scoreColor = '#f59e0b';
+
+    return `
+      <tr>
+        <td>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <img src="${d.img}" alt="${d.name}" style="width:36px;height:36px;object-fit:contain;border-radius:6px;background:rgba(255,255,255,0.03);border:1px solid var(--border);">
+            <div>
+              <div style="font-weight:700;color:var(--text);">${d.name}</div>
+              <div style="font-size:0.72rem;font-family:monospace;color:var(--blue);">${d.tag}</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="badge" style="background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--text-sub);">${d.category}</span></td>
+        <td style="color:var(--text);font-weight:500;">${d.user}</td>
+        <td>
+          <strong style="color:${scoreColor};font-family:monospace;font-size:0.95rem;">${d.score}%</strong>
+        </td>
+        <td>
+          <span class="badge ${d.status === 'Active' ? 'badge-green' : 'badge-amber'}">${d.status}</span>
+        </td>
+        <td style="font-family:monospace;font-weight:700;color:var(--text);">${d.value}</td>
+        <td>
+          <a href="./passport.html?device=${d.param}" class="btn btn-outline" style="font-size:0.75rem;padding:6px 12px;border-radius:8px;">
+            Inspect Passport &rarr;
+          </a>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+// Search & Filter Events
+document.getElementById('searchTable').addEventListener('input', (e) => {
+  currentSearch = e.target.value.toLowerCase().trim();
+  renderTable();
+});
+
+document.querySelectorAll('.cat-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = btn.dataset.cat;
+    renderTable();
+  });
+});
+
+// Role switcher
+const adminTab = document.getElementById('adminTabBtn');
+const userTab = document.getElementById('userTabBtn');
+
+adminTab.addEventListener('click', () => {
+  adminTab.classList.add('active');
+  userTab.classList.remove('active');
+  currentRole = 'admin';
+  document.getElementById('dashTitle').textContent = 'Administrator Fleet Overview';
+  document.getElementById('kpiDevices').textContent = '18';
+  document.getElementById('kpiHealth').textContent = '94%';
+  renderTable();
+});
+
+userTab.addEventListener('click', () => {
+  userTab.classList.add('active');
+  adminTab.classList.remove('active');
+  currentRole = 'user';
+  document.getElementById('dashTitle').textContent = 'Employee Self-Service Portal';
+  document.getElementById('kpiDevices').textContent = '1';
+  document.getElementById('kpiHealth').textContent = '98%';
+  renderTable();
+});
+
+renderTable();
+
+// Theme Toggle
+document.getElementById('themeToggleBtn').addEventListener('click', () => {
+  const isLight = document.documentElement.classList.toggle('light-mode');
+  localStorage.setItem('tp_theme', isLight ? 'light' : 'dark');
+});
+</script>
+
+</body>
+</html>

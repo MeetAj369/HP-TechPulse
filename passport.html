@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Gadget Passport™ — HP TechPulse</title>
+<meta name="description" content="Official Digital Gadget Passport with cryptographic QR verification, dynamic health scoring, and WDV depreciation.">
+<link rel="icon" type="image/png" href="./uploads/HP TechPulse logo.png">
+<link rel="stylesheet" href="./style.css">
+<script>
+(function(){
+  var t = localStorage.getItem('tp_theme');
+  if(t === 'light') document.documentElement.classList.add('light-mode');
+})();
+</script>
+<style>
+.passport-wrap { max-width: 960px; margin: 40px auto; padding: 0 16px; }
+.passport {
+  background: var(--bg-card);
+  border: 1.5px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.passport-header {
+  background: linear-gradient(135deg, rgba(232,19,42,0.12) 0%, rgba(26,107,255,0.08) 50%, transparent 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.passport-body { padding: 36px; }
+.glass-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+html.light-mode .glass-card {
+  background: rgba(0, 0, 0, 0.02);
+}
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+.spec-item {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+html.light-mode .spec-item { background: #f8fafc; }
+.spec-label { font-size: 0.72rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); letter-spacing: 0.05em; margin-bottom: 4px; }
+.spec-value { font-size: 0.95rem; font-weight: 700; color: var(--text); }
+.fin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.fin-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+}
+html.light-mode .fin-card { background: #f8fafc; }
+.fin-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; margin-bottom: 6px; }
+.fin-val { font-size: 1.45rem; font-weight: 900; color: var(--text); font-family: monospace; }
+.dep-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.dep-table th, .dep-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+.dep-table th { font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 700; }
+@media print {
+  body { background: #fff !important; color: #000 !important; }
+  .site-header, .site-footer, .device-selector-wrap, .print-btn, .header-actions { display: none !important; }
+  .passport-wrap { margin: 0 !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; }
+  .passport { border: 2px solid #000 !important; box-shadow: none !important; }
+}
+</style>
+</head>
+<body id="body-root">
+
+<header class="site-header">
+  <div class="container">
+    <a href="./index.html" class="site-logo">
+      <div class="site-logo-mark">
+        <img src="./uploads/HP TechPulse logo.png" alt="HP TechPulse Logo">
+      </div>
+      <span style="font-size:1.15rem;"><span style="color:var(--red);font-weight:900;">HP</span> <span style="font-weight:900;color:var(--text);">TechPulse</span></span>
+    </a>
+
+    <nav class="site-nav">
+      <a href="./index.html">Home</a>
+      <a href="./dashboard.html">Live Dashboard</a>
+      <a href="./passport.html" class="active">Gadget Passport™</a>
+      <a href="./about.html">Architecture</a>
+      <a href="./contact.html">Contact</a>
+    </nav>
+
+    <div class="header-actions">
+      <button id="themeToggleBtn" class="theme-toggle-btn btn btn-ghost btn-icon" title="Toggle Light/Dark Theme">
+        <svg class="ti-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        <svg class="ti-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="17" height="17"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707.707M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </button>
+
+      <button onclick="window.print()" class="btn btn-outline print-btn" style="font-size:0.85rem;padding:8px 16px;">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin-right:4px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+        Print / Save PDF
+      </button>
+
+      <a href="./dashboard.html" class="btn btn-primary" style="font-size:0.85rem;padding:8px 16px;">
+        Console View
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="passport-wrap">
+  <!-- DEVICE SELECTOR TOOLBAR -->
+  <div class="device-selector-wrap" style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <span style="font-size:0.82rem;font-weight:700;text-transform:uppercase;color:var(--text-muted);letter-spacing:0.05em;">Select Device:</span>
+      <select id="deviceSelect" style="background:var(--bg-input);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:10px;font-size:0.9rem;font-weight:600;outline:none;cursor:pointer;">
+        <option value="macbook">Apple MacBook Air M4 (TP-2026-0001)</option>
+        <option value="elitebook">HP EliteBook 840 G9 (TP-2024-0001)</option>
+        <option value="dell">Dell Latitude 7420 (TP-2024-0002)</option>
+        <option value="ipad">Apple iPad 10th Gen (TP-2024-0010)</option>
+        <option value="samsung">Samsung Galaxy S23 Ultra (TP-2024-0015)</option>
+        <option value="printer">HP LaserJet Pro M479fdw (TP-2024-0008)</option>
+      </select>
+    </div>
+    <div style="font-size:0.82rem;color:var(--text-sub);">
+      Official Cryptographic Hardware Passport &bull; Issued by <strong>HP TechPulse Engine</strong>
+    </div>
+  </div>
+
+  <!-- THE DIGITAL PASSPORT -->
+  <div class="passport">
+    <!-- PASSPORT HEADER -->
+    <div class="passport-header">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div style="width:110px;height:95px;background:var(--bg-input);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;padding:8px;">
+          <img id="passImg" src="./uploads/Apple MacBook Air M4.jpg" alt="Device" style="max-height:80px;max-width:100%;object-fit:contain;border-radius:8px;">
+        </div>
+        <div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+            <span class="badge badge-green" id="passStatus">Active</span>
+            <span style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;" id="passCategory">Laptop</span>
+          </div>
+          <h1 id="passName" style="font-size:1.8rem;font-weight:900;color:var(--text);letter-spacing:-0.03em;margin-bottom:4px;">Apple MacBook Air M4</h1>
+          <div style="display:flex;gap:14px;font-size:0.82rem;color:var(--text-sub);font-family:monospace;">
+            <span>TAG: <strong id="passTag" style="color:var(--blue);">TP-2026-0001</strong></span>
+            <span>&bull;</span>
+            <span>SERIAL: <strong id="passSerial" style="color:var(--text);">C02X4492M4P</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- QR CODE CONTAINER -->
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="background:#fff;padding:8px;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.25);">
+          <img src="./uploads/Qr_code.png" alt="Verification QR Code" style="width:84px;height:84px;display:block;">
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:0.7rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;">PASSPORT VERIFICATION</div>
+          <div style="font-size:0.8rem;font-weight:700;color:var(--success);margin-top:2px;">● Digitally Verified</div>
+          <div style="font-size:0.7rem;color:var(--text-muted);margin-top:2px;">CVMU Enterprise IT</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASSPORT BODY -->
+    <div class="passport-body">
+      <!-- HEALTH SCORE & ALGORITHMIC VERDICT -->
+      <div class="glass-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;color:var(--text-muted);letter-spacing:0.1em;">DEVICE HEALTH TELEMETRY</div>
+            <h3 style="font-size:1.15rem;font-weight:800;color:var(--text);margin-top:2px;">Continuous Algorithmic Health Score</h3>
+          </div>
+          <div style="text-align:right;">
+            <span id="passScoreBadge" style="font-size:2.2rem;font-weight:900;color:#22c55e;font-family:monospace;">98<span style="font-size:1.1rem;color:var(--text-muted);">/100</span></span>
+            <div id="passVerdict" style="font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:#22c55e;">Verdict: Excellent</div>
+          </div>
+        </div>
+
+        <div style="height:10px;background:rgba(255,255,255,0.06);border-radius:99px;overflow:hidden;margin-bottom:18px;">
+          <div id="passScoreBar" style="width:98%;height:100%;background:linear-gradient(90deg, #10b981, #22c55e);border-radius:99px;transition:width 0.6s ease;"></div>
+        </div>
+
+        <!-- BREAKDOWN ITEMS -->
+        <div id="passBreakdown" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;font-size:0.82rem;">
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--border);">
+            <span style="color:var(--text-sub);">Age Decay Penalty:</span>
+            <strong style="color:var(--text);">0 pts (Brand New)</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--border);">
+            <span style="color:var(--text-sub);">Repairs Logged:</span>
+            <strong style="color:var(--text);">0 repairs (0 pts)</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--border);">
+            <span style="color:var(--text-sub);">Active Warranty Bonus:</span>
+            <strong style="color:var(--success);">+10 pts Bonus</strong>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--border);">
+            <span style="color:var(--text-sub);">Active AMC Contract:</span>
+            <strong style="color:var(--success);">+8 pts Bonus</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- FINANCIAL COMPLIANCE: WDV DEPRECIATION & TCO -->
+      <div class="glass-card">
+        <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;color:var(--text-muted);letter-spacing:0.1em;margin-bottom:14px;">FINANCIAL COMPLIANCE &amp; DEPRECIATION</div>
+        
+        <div class="fin-grid">
+          <div class="fin-card">
+            <div class="fin-label">Purchase Price (CapEx)</div>
+            <div class="fin-val" id="finPurchase">₹1,14,900</div>
+          </div>
+          <div class="fin-card">
+            <div class="fin-label">Maintenance (OpEx)</div>
+            <div class="fin-val" id="finOpEx" style="color:var(--success);">₹0.00</div>
+          </div>
+          <div class="fin-card">
+            <div class="fin-label">Current Book Value (WDV)</div>
+            <div class="fin-val" id="finBookValue" style="color:var(--blue);">₹97,665</div>
+          </div>
+          <div class="fin-card">
+            <div class="fin-label">Total Cost of Ownership</div>
+            <div class="fin-val" id="finTco">₹1,14,900</div>
+          </div>
+        </div>
+
+        <h4 style="font-size:0.88rem;font-weight:800;color:var(--text);margin-bottom:12px;">5-Year Written Down Value (WDV) Depreciation Schedule (15% p.a.)</h4>
+        <div style="overflow-x:auto;">
+          <table class="dep-table">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>Opening Value</th>
+                <th>Depreciation (15%)</th>
+                <th>Closing Book Value</th>
+                <th>% Asset Retained</th>
+              </tr>
+            </thead>
+            <tbody id="depTbody">
+              <tr><td>Year 1</td><td>₹1,14,900</td><td>₹17,235</td><td>₹97,665</td><td><strong>85.0%</strong></td></tr>
+              <tr><td>Year 2</td><td>₹97,665</td><td>₹14,650</td><td>₹83,015</td><td><strong>72.2%</strong></td></tr>
+              <tr><td>Year 3</td><td>₹83,015</td><td>₹12,452</td><td>₹70,563</td><td><strong>61.4%</strong></td></tr>
+              <tr><td>Year 4</td><td>₹70,563</td><td>₹10,584</td><td>₹59,979</td><td><strong>52.2%</strong></td></tr>
+              <tr><td>Year 5</td><td>₹59,979</td><td>₹8,997</td><td>₹50,982</td><td><strong>44.4%</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- HARDWARE SPECIFICATIONS -->
+      <div class="glass-card">
+        <div style="font-size:0.72rem;font-weight:800;text-transform:uppercase;color:var(--text-muted);letter-spacing:0.1em;margin-bottom:14px;">SPECIFICATIONS &amp; ASSIGNMENT</div>
+        <div class="specs-grid">
+          <div class="spec-item">
+            <div class="spec-label">Assigned User</div>
+            <div class="spec-value" id="specUser">Meet Chauhan (Software Dev)</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Department</div>
+            <div class="spec-value" id="specDept">Engineering / IT Core</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Processor / Chipset</div>
+            <div class="spec-value" id="specCpu">Apple Silicon M4 (10-Core CPU, 10-Core GPU)</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Memory &amp; Storage</div>
+            <div class="spec-value" id="specMem">16 GB Unified RAM &bull; 512 GB NVMe SSD</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Authorized Vendor</div>
+            <div class="spec-value" id="specVendor">Apple Inn Pvt. Ltd.</div>
+          </div>
+          <div class="spec-item">
+            <div class="spec-label">Warranty Validity</div>
+            <div class="spec-value" id="specWarranty" style="color:var(--success);">Active until Dec 2027 (36 Mos)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container" style="text-align:center;padding:24px 0;">
+    <p style="font-size:0.85rem;color:var(--text-muted);">&copy; 2026 HP TechPulse Digital Gadget Passport Engine. Developed by Meet Chauhan.</p>
+  </div>
+</footer>
+
+<script>
+const deviceData = {
+  macbook: {
+    name: 'Apple MacBook Air M4',
+    tag: 'TP-2026-0001',
+    serial: 'C02X4492M4P',
+    category: 'Laptop',
+    status: 'Active',
+    img: './uploads/Apple MacBook Air M4.jpg',
+    score: 98,
+    verdict: 'Excellent',
+    color: '#22c55e',
+    purchase: '₹1,14,900',
+    opex: '₹0.00',
+    bookValue: '₹97,665',
+    tco: '₹1,14,900',
+    user: 'Meet Chauhan (Software Dev)',
+    dept: 'Engineering / IT Core',
+    cpu: 'Apple Silicon M4 (10-Core CPU, 10-Core GPU)',
+    mem: '16 GB Unified RAM • 512 GB NVMe SSD',
+    vendor: 'Apple Inn Pvt. Ltd.',
+    warranty: 'Active until Dec 2027 (36 Mos)',
+    breakdown: [
+      { l: 'Age Decay Penalty:', v: '0 pts (Brand New)' },
+      { l: 'Repairs Logged:', v: '0 repairs (0 pts)' },
+      { l: 'Active Warranty Bonus:', v: '+10 pts Bonus', c: '#22c55e' },
+      { l: 'Active AMC Contract:', v: '+8 pts Bonus', c: '#22c55e' }
+    ],
+    schedule: [
+      ['Year 1', '₹1,14,900', '₹17,235', '₹97,665', '85.0%'],
+      ['Year 2', '₹97,665', '₹14,650', '₹83,015', '72.2%'],
+      ['Year 3', '₹83,015', '₹12,452', '₹70,563', '61.4%'],
+      ['Year 4', '₹70,563', '₹10,584', '₹59,979', '52.2%'],
+      ['Year 5', '₹59,979', '₹8,997', '₹50,982', '44.4%']
+    ]
+  },
+  elitebook: {
+    name: 'HP EliteBook 840 G9',
+    tag: 'TP-2024-0001',
+    serial: '5CG2490XLM',
+    category: 'Laptop',
+    status: 'Active',
+    img: './uploads/HP EliteBook 840.jpg',
+    score: 87,
+    verdict: 'Good',
+    color: '#3b82f6',
+    purchase: '₹89,500',
+    opex: '₹3,200',
+    bookValue: '₹64,664',
+    tco: '₹92,700',
+    user: 'Rajesh Patel (IT Manager)',
+    dept: 'Operations & Quality',
+    cpu: 'Intel Core i7-1260P (12 Cores, up to 4.7 GHz)',
+    mem: '16 GB DDR5 RAM • 512 GB PCIe 4.0 SSD',
+    vendor: 'HP Enterprise India Ltd.',
+    warranty: 'Active until Aug 2025 (284 Days)',
+    breakdown: [
+      { l: 'Age Decay Penalty:', v: '-7 pts (14 months)' },
+      { l: 'Repairs Logged:', v: '1 resolved (-8 pts)' },
+      { l: 'Active Warranty Bonus:', v: '+10 pts Bonus', c: '#22c55e' },
+      { l: 'Active AMC Contract:', v: '+8 pts Bonus', c: '#22c55e' }
+    ],
+    schedule: [
+      ['Year 1', '₹89,500', '₹13,425', '₹76,075', '85.0%'],
+      ['Year 2', '₹76,075', '₹11,411', '₹64,664', '72.2%'],
+      ['Year 3', '₹64,664', '₹9,700', '₹54,964', '61.4%'],
+      ['Year 4', '₹54,964', '₹8,245', '₹46,719', '52.2%'],
+      ['Year 5', '₹46,719', '₹7,008', '₹39,711', '44.4%']
+    ]
+  },
+  dell: {
+    name: 'Dell Latitude 7420',
+    tag: 'TP-2024-0002',
+    serial: '9K8J342X',
+    category: 'Laptop',
+    status: 'Active',
+    img: './uploads/Dell Latitude 7420.jpg',
+    score: 92,
+    verdict: 'Excellent',
+    color: '#22c55e',
+    purchase: '₹94,000',
+    opex: '₹0.00',
+    bookValue: '₹67,915',
+    tco: '₹94,000',
+    user: 'Priya Sharma (Frontend Dev)',
+    dept: 'Product Development',
+    cpu: 'Intel Core i5-1145G7 vPro (4 Cores, 8 Threads)',
+    mem: '16 GB LPDDR4x • 256 GB NVMe SSD',
+    vendor: 'Dell Technologies Partner',
+    warranty: 'Active ProSupport Plus (18 Mos)',
+    breakdown: [
+      { l: 'Age Decay Penalty:', v: '-6 pts (12 months)' },
+      { l: 'Repairs Logged:', v: '0 repairs (0 pts)' },
+      { l: 'Active Warranty Bonus:', v: '+10 pts Bonus', c: '#22c55e' },
+      { l: 'Active AMC Contract:', v: '+8 pts Bonus', c: '#22c55e' }
+    ],
+    schedule: [
+      ['Year 1', '₹94,000', '₹14,100', '₹79,900', '85.0%'],
+      ['Year 2', '₹79,900', '₹11,985', '₹67,915', '72.2%'],
+      ['Year 3', '₹67,915', '₹10,187', '₹57,728', '61.4%'],
+      ['Year 4', '₹57,728', '₹8,659', '₹49,069', '52.2%'],
+      ['Year 5', '₹49,069', '₹7,360', '₹41,709', '44.4%']
+    ]
+  },
+  ipad: {
+    name: 'Apple iPad 10th Gen',
+    tag: 'TP-2024-0010',
+    serial: 'DMP89201L',
+    category: 'Tablet',
+    status: 'Active',
+    img: './uploads/Apple iPad 10th.jpg',
+    score: 94,
+    verdict: 'Excellent',
+    color: '#22c55e',
+    purchase: '₹39,900',
+    opex: '₹0.00',
+    bookValue: '₹28,828',
+    tco: '₹39,900',
+    user: 'Design Team Shared',
+    dept: 'UI / UX Design Studio',
+    cpu: 'Apple A14 Bionic (6-Core CPU, 4-Core GPU)',
+    mem: '64 GB Storage • 10.9-inch Liquid Retina',
+    vendor: 'Apple Inn Pvt. Ltd.',
+    warranty: 'AppleCare+ Active',
+    breakdown: [
+      { l: 'Age Decay Penalty:', v: '-4 pts (8 months)' },
+      { l: 'Repairs Logged:', v: '0 repairs (0 pts)' },
+      { l: 'Active Warranty Bonus:', v: '+10 pts Bonus', c: '#22c55e' },
+      { l: 'Active AMC Contract:', v: '+8 pts Bonus', c: '#22c55e' }
+    ],
+    schedule: [
+      ['Year 1', '₹39,900', '₹5,985', '₹33,915', '85.0%'],
+      ['Year 2', '₹33,915', '₹5,087', '₹28,828', '72.2%'],
+      ['Year 3', '₹28,828', '₹4,324', '₹24,504', '61.4%'],
+      ['Year 4', '₹24,504', '₹3,676', '₹20,828', '52.2%'],
+      ['Year 5', '₹20,828', '₹3,124', '₹17,704', '44.4%']
+    ]
+  },
+  samsung: {
+    name: 'Samsung Galaxy S23 Ultra',
+    tag: 'TP-2024-0015',
+    serial: 'R5CW901KLM',
+    category: 'Mobile',
+    status: 'Active',
+    img: './uploads/Samsung S23 Ultra.jpg',
+    score: 96,
+    verdict: 'Excellent',
+    color: '#22c55e',
+    purchase: '₹1,04,999',
+    opex: '₹0.00',
+    bookValue: '₹75,862',
+    tco: '₹1,04,999',
+    user: 'Amit Joshi (Field Director)',
+    dept: 'Field Operations',
+    cpu: 'Snapdragon 8 Gen 2 Mobile Platform for Galaxy',
+    mem: '12 GB RAM • 256 GB UFS 4.0 Storage',
+    vendor: 'Samsung Corporate Store',
+    warranty: 'Samsung Care+ Comprehensive',
+    breakdown: [
+      { l: 'Age Decay Penalty:', v: '-2 pts (5 months)' },
+      { l: 'Repairs Logged:', v: '0 repairs (0 pts)' },
+      { l: 'Active Warranty Bonus:', v: '+10 pts Bonus', c: '#22c55e' },
+      { l: 'Active AMC Contract:', v: '+8 pts Bonus', c: '#22c55e' }
+    ],
+    schedule: [
+      ['Year 1', '₹1,04,999', '₹15,750', '₹89,249', '85.0%'],
+      ['Year 2', '₹89,249', '₹13,387', '₹75,862', '72.2%'],
+      ['Year 3', '₹75,862', '₹11,379', '₹64,483', '61.4%'],
+      ['Year 4', '₹64,483', '₹9,672', '₹54,811', '52.2%'],
+      ['Year 5', '₹54,811', '₹8,222', '₹46,589', '44.4%']
+    ]
+  },
+  printer: {
+    name: 'HP LaserJet Pro M479fdw',
+    tag: 'TP-2024-0008',
+    serial: 'VNB3K90124',
+    category: 'Printer',
+    status: 'Needs Service',
+    img: './uploads/HP LaserJet Pro.jpg',
+    score: 62,
+    verdict: 'Needs Attention',
+    color: '#f59e0b',
+    purchase: '₹48,000',
+    opex: '₹6,400',
+    bookValue: '₹28,560',
+    tco: '₹54,400',
+    user: 'Floor 2 IT Central Hub',
+    dept: 'Shared Enterprise Infrastructure',
+    cpu: '1200 MHz Embedded Controller',
+    mem: '512 MB NAND Flash &bull; Auto-Duplex',
+    vendor: 'HP Commercial Solutions',
+    warranty: 'Standard AMC Contract',
+    breakdown: [
+      { l: 'Age Decay Penalty:', v: '-14 pts (28 months)' },
+      { l: 'Repairs Logged:', v: '2 resolved (-16 pts)' },
+      { l: 'Active Maintenance Due:', v: '-8 pts Overdue', c: '#ef4444' },
+      { l: 'Active AMC Contract:', v: '+8 pts Bonus', c: '#22c55e' }
+    ],
+    schedule: [
+      ['Year 1', '₹48,000', '₹7,200', '₹40,800', '85.0%'],
+      ['Year 2', '₹40,800', '₹6,120', '₹34,680', '72.2%'],
+      ['Year 3', '₹34,680', '₹5,202', '₹29,478', '61.4%'],
+      ['Year 4', '₹29,478', '₹4,422', '₹25,056', '52.2%'],
+      ['Year 5', '₹25,056', '₹3,758', '₹21,298', '44.4%']
+    ]
+  }
+};
+
+function renderDevice(key) {
+  const d = deviceData[key] || deviceData.macbook;
+  document.getElementById('passName').textContent = d.name;
+  document.getElementById('passTag').textContent = d.tag;
+  document.getElementById('passSerial').textContent = d.serial;
+  document.getElementById('passCategory').textContent = d.category;
+  document.getElementById('passStatus').textContent = d.status;
+  document.getElementById('passImg').src = d.img;
+  document.getElementById('passScoreBadge').innerHTML = `${d.score}<span style="font-size:1.1rem;color:var(--text-muted);">/100</span>`;
+  document.getElementById('passScoreBadge').style.color = d.color;
+  document.getElementById('passScoreBar').style.width = d.score + '%';
+  document.getElementById('passVerdict').textContent = 'Verdict: ' + d.verdict;
+  document.getElementById('passVerdict').style.color = d.color;
+  
+  document.getElementById('finPurchase').textContent = d.purchase;
+  document.getElementById('finOpEx').textContent = d.opex;
+  document.getElementById('finBookValue').textContent = d.bookValue;
+  document.getElementById('finTco').textContent = d.tco;
+
+  document.getElementById('specUser').textContent = d.user;
+  document.getElementById('specDept').textContent = d.dept;
+  document.getElementById('specCpu').textContent = d.cpu;
+  document.getElementById('specMem').textContent = d.mem;
+  document.getElementById('specVendor').textContent = d.vendor;
+  document.getElementById('specWarranty').textContent = d.warranty;
+
+  // Breakdown
+  const bEl = document.getElementById('passBreakdown');
+  bEl.innerHTML = d.breakdown.map(b => `
+    <div style="display:flex;justify-content:space-between;padding:8px 12px;background:rgba(255,255,255,0.02);border-radius:8px;border:1px solid var(--border);">
+      <span style="color:var(--text-sub);">${b.l}</span>
+      <strong style="color:${b.c || 'var(--text)'};">${b.v}</strong>
+    </div>
+  `).join('');
+
+  // Schedule
+  const tEl = document.getElementById('depTbody');
+  tEl.innerHTML = d.schedule.map(row => `
+    <tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td>${row[3]}</td><td><strong>${row[4]}</strong></td></tr>
+  `).join('');
+}
+
+const selectEl = document.getElementById('deviceSelect');
+selectEl.addEventListener('change', (e) => {
+  renderDevice(e.target.value);
+});
+
+// Check URL params
+const params = new URLSearchParams(window.location.search);
+const devParam = params.get('device');
+if (devParam && deviceData[devParam]) {
+  selectEl.value = devParam;
+  renderDevice(devParam);
+} else {
+  renderDevice('macbook');
+}
+
+// Theme Toggle
+document.getElementById('themeToggleBtn').addEventListener('click', () => {
+  const isLight = document.documentElement.classList.toggle('light-mode');
+  localStorage.setItem('tp_theme', isLight ? 'light' : 'dark');
+});
+</script>
+
+</body>
+</html>
