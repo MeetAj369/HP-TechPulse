@@ -16,3 +16,4 @@ $RECYCLE.BIN/
 *.tmp
 *.temp
 session_cache/
+deploy_pages/

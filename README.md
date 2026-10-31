@@ -2,12 +2,16 @@
 
 ![HP TechPulse](uploads/HP%20TechPulse%20logo.png)
 
+[![Live Website](https://img.shields.io/badge/Live_Hosted_Platform-HP_TechPulse-22c55e?style=for-the-badge&logo=googlechrome&logoColor=white)](https://meetaj369.github.io/HP-TechPulse/)
 [![PHP](https://img.shields.io/badge/PHP-5.4%20--%208.2-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-techpulse369-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![FPDF](https://img.shields.io/badge/PDF_Engine-FPDF-E44D26?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)](http://www.fpdf.org/)
 [![CSS3](https://img.shields.io/badge/Styling-Custom%20Modern%20CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![Status](https://img.shields.io/badge/Status-Production%20Ready-success?style=for-the-badge)]()
 [![Author](https://img.shields.io/badge/Developer-Meet%20Chauhan-6366f1?style=for-the-badge&logo=github)](https://github.com/MeetAj369)
+
+> 🌐 **Live Interactive Website**: [https://meetaj369.github.io/HP-TechPulse/](https://meetaj369.github.io/HP-TechPulse/)  
+> Open on any browser, mobile phone (Android/iOS), or desktop to experience the live fleet dashboard, interactive Gadget Passports, and health scoring telemetry!
 
 ---
 
